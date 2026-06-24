@@ -1,0 +1,575 @@
+.ticket-wrapper {
+max-width: 1034px;
+margin: 32px auto;
+padding: 0 12px;
+
+font-family: 'Inter', Arial, sans-serif;
+color: #0f172a;
+  background: #ffffff;   /* light grey professional bg */
+  padding: 30px;
+  border-radius: 18px;
+}
+
+/* ================================================= */
+/* ================= HEADER ======================== */
+/* ================================================= */
+.ticket-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+background: #ffffff;
+padding: 16px 20px;
+border-radius: 16px;
+border: 1px solid #e5e7eb;
+
+margin-bottom: 20px;
+}
+
+.ticket-header h2 {
+font-size: 18px;
+font-weight: 600;
+color: #0f172a;
+}
+
+.close-btn {
+width: 36px;
+height: 36px;
+border-radius: 50%;
+
+background: #f1f5f9;
+border: none;
+cursor: pointer;
+
+font-size: 18px;
+color: #475569;
+
+display: flex;
+align-items: center;
+justify-content: center;
+transition: 0.2s;
+}
+
+.close-btn:hover {
+background: #e2e8f0;
+color: #0f172a;
+}
+
+/* ================= PROGRESS ================= */
+.progress-section {
+  margin-bottom: 20px;
+}
+
+.progress-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.progress-bar {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #22c55e;
+  border-radius: 999px;
+}
+
+/* ================= STEP 1 CARD ================= */
+.ticket-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 22px;
+  border: 1px solid #e2e8f0;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin: 14px 0 6px;
+}
+
+input,
+textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  padding: 12px 14px;
+  font-size: 13px;
+  outline: none;
+  background: #ffffff;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.15);
+}
+
+textarea {
+  resize: none;
+  line-height: 1.5;
+}
+
+/* ================= CATEGORY ================= */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.category-grid button {
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.category-grid button.active {
+  background: #ecfdf5;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+/* ================= CONTINUE BUTTON ================= */
+.continue-btn {
+  margin-top: 22px;
+  width: 100%;
+  height: 46px;
+  background: #14b8a6;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.continue-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ================================================= */
+/* ================= STEP 2 ======================== */
+/* ================================================= */
+
+.solution-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px;
+  border: 1px solid #e2e8f0;
+}
+
+/* ================= INFO BANNER ================= */
+.solution-banner {
+  background: #ecfdf5;
+  border: 1px solid #86efac;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #065f46;
+  margin-bottom: 18px;
+}
+
+.solution-banner p {
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+/* ================= SOLUTION BOX ================= */
+.solution-box {
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* ================= SOLUTION HEADER ================= */
+.solution-header {
+  display: flex;
+  gap: 12px;
+  padding: 18px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.solution-header .icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.solution-header h3 {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.solution-header .time {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* ================= STEPS ================= */
+.steps {
+  padding: 16px 20px;
+}
+
+.steps h4 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.steps ol {
+  padding-left: 18px;
+}
+
+.steps li {
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #334155;
+}
+
+/* ================= VIDEO ================= */
+.video-section {
+  padding: 0 20px 20px;
+}
+
+.video-section h4 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.video-card {
+  background: #020617;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.video-card video {
+  width: 100%;
+  display: block;
+}
+
+.video-caption {
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ================= VERIFY ================= */
+.verify-box {
+  background: #fefce8;
+  border-top: 1px solid #fde68a;
+  padding: 14px 16px;
+  display: flex;
+  gap: 12px;
+}
+
+.verify-box input {
+  margin-top: 3px;
+}
+
+.verify-box strong {
+  font-size: 13px;
+}
+
+.verify-box p {
+  font-size: 12px;
+  color: #92400e;
+  margin-top: 3px;
+}
+
+/* ================= ACTION BUTTONS ================= */
+.action-buttons {
+  display: flex;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.btn-outline {
+  flex: 1;
+  height: 44px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1.5px solid #86efac;
+  color: #166534;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-outline:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  flex: 1;
+  height: 44px;
+  border-radius: 12px;
+  background: #2e7669;
+  border: none;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* ================= VERIFY BOX ================= */
+.verify-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+  width: 95%;
+  margin-left: 10px;
+
+  background: #fffbea;            /* light yellow */
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+
+  padding: 8px 20px;
+  margin-top: 16px;
+
+  cursor: pointer;
+}
+
+/* checkbox container */
+.verify-box input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  margin-top: 8px;
+
+  accent-color: #22c55e;           /* green tick */
+  cursor: pointer;
+}
+
+/* text block */
+.verify-box strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.4;
+}
+
+/* description */
+.verify-box p {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.4;
+}
+
+
+/* ================= STEP 3 COMMON ================= */
+.final-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 36px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+/* ---------- SOLVED ---------- */
+.final-card.solved .success-icon {
+  font-size: 56px;
+  background: #22c55e;
+  color: white;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.final-card h2 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.sub-text {
+  color: #64748b;
+  margin-top: 6px;
+}
+
+.feedback-box {
+  margin: 26px auto;
+  background: #f8fafc;
+  padding: 18px;
+  border-radius: 14px;
+  max-width: 360px;
+}
+
+.feedback-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.yes-btn {
+  background: #ecfdf5;
+  border: 1px solid #22c55e;
+  color: #166534;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+
+.no-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+
+/* ---------- SUBMIT ---------- */
+.final-card.submit {
+  text-align: left;
+}
+
+.submit-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.summary-box {
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 14px;
+  margin-bottom: 18px;
+}
+
+.summary-box .title {
+  font-weight: 600;
+}
+
+.reviewed-box {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: #f8fafc;
+  padding: 14px;
+  border-radius: 14px;
+  margin-bottom: 18px;
+}
+
+.verified-badge {
+  background: #dcfce7;
+  color: #166534;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+/* ---------- UPLOAD ---------- */
+.upload-box {
+  border: 2px dashed #cbd5e1;
+  border-radius: 16px;
+  padding: 26px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.upload-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+/* ---------- PRIMARY BUTTON ---------- */
+.primary-btn {
+  width: 100%;
+  height: 48px;
+  background: #14b8a6;
+  border: none;
+  color: white;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.impress-box {
+  margin-top: 16px;
+  padding: 14px;
+  background: #e8fff1;
+  border: 1px solid #b6f2cc;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 15px;
+  animation: pop 0.4s ease;
+}
+
+.impress-box.sad {
+  background: #fff2f2;
+  border-color: #ffc7c7;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.yes-btn {
+  background: #22c55e;
+  color: white;
+}
+
+.no-btn {
+  background: #ef4444;
+  color: white;
+}
+.upload-box {
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.upload-box:hover {
+  background: #f8fafc;
+  border-color: #6366f1;
+}
+
+.upload-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.file-name {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #16a34a;
+  font-weight: 500;
+}

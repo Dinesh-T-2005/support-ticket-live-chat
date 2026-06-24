@@ -1,0 +1,209 @@
+<div class="ticket-wrapper">
+
+  <!-- Header -->
+  <!-- <div class="ticket-header">
+    <button class="close-btn" (click)="close()">✕</button>
+    <h2>{{ step === 1 ? 'Report an Issue' : 'Suggested Solution' }}</h2>
+  </div> -->
+
+  <!-- Progress -->
+  <div class="progress-section">
+    <div class="progress-text">
+      <span>Step {{ step }} of 3</span>
+      <span class="right-text">
+        {{ step === 1 ? 'Describe Issue' : 'Review Solution' }}
+      </span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="step === 1 ? 35 : 70"></div>
+    </div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="ticket-card" *ngIf="step === 1">
+
+    <label>Issue Title</label>
+    <input type="text" placeholder="Brief summary of your issue (e.g., 'Unable to export reports')"
+      [(ngModel)]="ticket.issueTitle" />
+
+    <label>Describe the issue you're facing</label>
+    <textarea rows="6" [(ngModel)]="ticket.issueDescription" placeholder="Please provide as much detail as possible:
+• What were you trying to do?
+• What happened instead?
+• When did this start occurring?
+• Have you tried any troubleshooting steps?"></textarea>
+
+    <label>Category (Optional)</label>
+    <div class="category-grid">
+      <button *ngFor="let c of categories" (click)="selectCategory(c)" [class.active]="ticket.category === c">
+        {{ c }}
+      </button>
+    </div>
+
+    <button class="continue-btn" [disabled]="!canContinue()" (click)="goToStep2()">
+      Continue →
+    </button>
+
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="solution-card" *ngIf="step === 2">
+
+    <div class="solution-banner">
+      💡 This issue may be resolved by following the instructions below
+      <p>Please review the solution before submitting a ticket</p>
+    </div>
+
+    <div class="solution-box">
+
+      <div class="solution-header">
+        <div class="icon">📄</div>
+        <div>
+          <h3>{{ instructionTitle }}</h3>
+          <p class="time">Estimated time: 35Min - 1Hr</p>
+        </div>
+      </div>
+
+      <div class="steps">
+        <h4>Follow these steps:</h4>
+        <ol>
+          <li>Navigate to <b>Settings → Data & Privacy</b></li>
+          <li>Click <b>Clear Local Cache</b></li>
+          <li>Click <b>Force Sync</b></li>
+          <li>Log out of the application</li>
+          <li>Log in again using your credentials</li>
+          <li>Verify that the issue is resolved</li>
+        </ol>
+      </div>
+
+
+      <div class="video-section" *ngIf="showVideo">
+        <h4>Video Tutorial</h4>
+        <div class="video-card">
+          <video [src]="matchedVideo" controls></video>
+          <div class="video-caption">
+            How to resolve sync issues <span>Duration: 2:34</span>
+          </div>
+        </div>
+      </div>
+
+      <label class="verify-box">
+        <input type="checkbox" [(ngModel)]="verified" />
+        <div>
+          <strong>I have reviewed this instruction and the video</strong>
+          <p>Please confirm that you have watched the video and followed all steps</p>
+        </div>
+      </label>
+
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn-outline" [disabled]="!verified" (click)="solvedIssue()">
+        ✔ This solved my issue
+      </button>
+
+      <button class="btn-primary" [disabled]="!verified" (click)="issueStillPersists()">
+        Issue still persists →
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ================= STEP 3 : SOLVED ================= -->
+  <div class="final-card solved" *ngIf="step === 3 && solved">
+
+    <div class="success-icon">😊</div>
+
+    <h2>Great! We're glad that helped!</h2>
+    <p class="sub-text">Thank you for using our self-service support</p>
+
+    <div class="feedback-box">
+      <p>Was this instruction helpful?</p>
+
+      <div class="feedback-actions">
+        <button class="yes-btn" (click)="onFeedback('yes')">👍 Yes</button>
+        <button class="no-btn" (click)="onFeedback('no')">👎 No</button>
+      </div>
+
+      <!-- Impression Message -->
+      <div class="impress-box" *ngIf="feedback === 'yes'">
+        🎉 <strong>Awesome!</strong>
+        We're really happy this helped you 😊
+      </div>
+
+      <div class="impress-box sad" *ngIf="feedback === 'no'">
+        😔 <strong>Sorry!</strong>
+        We'll work on improving this.
+      </div>
+
+
+
+    </div>
+
+    <button class="primary-btn" (click)="backToDashboard()">
+      Back to Dashboard 🏠
+    </button>
+
+  </div>
+
+  <!-- ================= STEP 3 : SUBMIT TICKET ================= -->
+  <div class="final-card submit" *ngIf="step === 3 && !solved">
+
+    <h2 class="submit-title">Submit Ticket</h2>
+
+    <!-- Issue Summary -->
+    <div class="summary-box">
+      <h4>Issue Summary</h4>
+      <p class="title">{{ ticket.issueTitle }}</p>
+      <p class="desc">{{ ticket.issueDescription }}</p>
+    </div>
+
+    <!-- Reviewed Instruction -->
+    <div class="reviewed-box">
+      <span class="doc-icon">📄</span>
+      <div>
+        <p class="inst-title">{{ instructionTitle }}</p>
+        <span class="verified-badge">Verified</span>
+      </div>
+    </div>
+
+    <!-- Additional Details -->
+    <label>Additional Details (Optional)</label>
+    <textarea rows="4" [(ngModel)]="additionalInfo"
+      placeholder="Any additional information that might help our support team..."></textarea>
+
+    <!-- Attachment -->
+    <div class="upload-box" (click)="fileInput.click()" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+
+      <div class="upload-icon">☁️</div>
+
+      <p>
+        <strong>Click to upload</strong> or drag and drop
+      </p>
+
+      <span>
+        Screenshots, documents, videos (max 20MB)
+      </span>
+
+      <!-- Selected file name -->
+      <div class="file-name" *ngIf="selectedFile">
+        📎 {{ selectedFile.name }}
+      </div>
+
+      <!-- hidden input -->
+      <input type="file" #fileInput hidden (change)="onFileSelected($event)"
+        accept=".png,.jpg,.jpeg,.pdf,.doc,.docx,.mp4,.mov,.webm" />
+
+    </div>
+
+
+
+    <button class="primary-btn" (click)="submitTicket()">
+      Submit Ticket ✉️
+    </button>
+
+  </div>
+
+
+</div>
+<app-loader *ngIf="isLoading"></app-loader>

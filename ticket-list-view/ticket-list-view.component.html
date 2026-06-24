@@ -1,0 +1,40 @@
+<div class="ticket-list-wrapper">
+
+  <h2>My Support Tickets</h2>
+
+  <!-- LOADING -->
+  <div class="loading" *ngIf="loading">
+    Loading tickets...
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="empty" *ngIf="!loading && tickets.length === 0">
+    No tickets raised yet.
+  </div>
+
+  <!-- LIST -->
+  <div class="ticket-card"
+       *ngFor="let t of tickets">
+
+    <div class="left">
+      <h4>{{ t.ticket_code }}</h4>
+      <p class="title">{{ t.issue_title }}</p>
+      <span class="date">
+        {{ t.created_at | date:'mediumDate' }}
+      </span>
+    </div>
+
+    <div class="right">
+      <span class="status"
+            [class]="t.status.toLowerCase()">
+        {{ t.status }}
+      </span>
+
+      <button (click)="viewTicket(t.id)">
+        View
+      </button>
+    </div>
+
+  </div>
+
+</div>

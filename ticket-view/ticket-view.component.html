@@ -1,0 +1,295 @@
+<div class="ticket-view-wrapper" *ngIf="!loading && ticket">
+
+  <!-- ================= HEADER ================= -->
+  <div class="header">
+    <h2>{{ ticket.ticket_code }}</h2>
+
+    <span class="status" [ngClass]="{
+            'open': ticket.status === 'OPEN',
+            'in_progress': ticket.status === 'IN_PROGRESS',
+            'closed': ticket.status === 'CLOSED'
+          }">
+      {{ ticket.status }}
+    </span>
+  </div>
+
+
+  <!-- ================= MAIN DETAILS ================= -->
+  <div class="card">
+
+    <div class="row">
+      <label>Issue Title</label>
+      <p class="value title">
+        {{ ticket.issue_title }}
+      </p>
+    </div>
+
+    <div class="row">
+      <label>Description</label>
+      <p class="desc">
+        {{ ticket.issue_description }}
+      </p>
+    </div>
+
+    <div class="row inline">
+      <div>
+        <label>Category</label>
+        <p class="chip">
+          {{ ticket.category }}
+        </p>
+      </div>
+
+      <div>
+        <label>Created On</label>
+        <p class="muted">
+          {{ ticket.created_at | date:'medium' }}
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ================= IN PROGRESS SECTION ================= -->
+  <ng-container *ngIf="ticket.status === 'IN_PROGRESS' || ticket.status === 'CLOSED'">
+
+    <!-- 🔹 Delay History -->
+    <div class="delay-card" *ngIf="ticket.delay_updates?.length > 0">
+
+      <h3>⏳ Work in Progress Updates</h3>
+
+      <div class="history-item" *ngFor="let d of ticket.delay_updates; let last = last">
+
+        <p class="delay-text">
+          {{ d.reason }}
+        </p>
+
+        <small class="update-time">
+          {{ d.updateAt | date:'medium' }}
+        </small>
+
+        <!-- <hr *ngIf="!last"> -->
+
+      </div>
+
+    </div>
+
+
+    <!-- 🔹 Developer Note History -->
+    <div class="dev-note" *ngIf="ticket.dev_updates?.length > 0">
+
+      <h3>Developer Updates</h3>
+
+      <div class="history-item" *ngFor="let u of ticket.dev_updates; let last = last">
+
+        <p>
+          {{ u.devNote }}
+        </p>
+
+        <small class="update-time">
+          {{ u.updateAt | date:'medium' }}
+        </small>
+
+        <hr *ngIf="!last">
+
+      </div>
+
+    </div>
+
+  </ng-container>
+
+
+
+
+  <!-- ================= CLOSED SECTION ================= -->
+  <!-- ================= WORK TIME DETAILS ================= -->
+  <div class="resolution-card" *ngIf="(ticket.status === 'IN_PROGRESS' || ticket.status === 'CLOSED') 
+            && ticket.started_at">
+
+    <h3>⏱ Work Details</h3>
+
+    <div class="time-grid">
+
+      <div>
+        <label>Work Started</label>
+        <p>{{ ticket.started_at | date:'medium' }}</p>
+      </div>
+
+      <!-- If CLOSED -->
+      <div *ngIf="ticket.status === 'CLOSED'">
+        <label>Work Completed</label>
+        <p>{{ ticket.closed_at | date:'medium' }}</p>
+      </div>
+
+      <!-- Time Calculation -->
+      <div>
+        <label>
+          {{ ticket.status === 'CLOSED' ? 'Total Time Taken' : 'Time Spent So Far' }}
+        </label>
+
+        <p class="highlight">
+          {{ getLiveDuration() }}
+        </p>
+      </div>
+
+      <div *ngIf="ticket.actual_hours">
+        <label>Actual Hours Logged</label>
+        <p>{{ ticket.actual_hours }} hrs</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="feedback-card" *ngIf="ticket.status === 'CLOSED' && !ticket.feedback">
+
+
+    <h3>Rate our support</h3>
+
+    <div class="stars">
+      <span *ngFor="let s of [1,2,3,4,5]" (click)="rating = s" [class.active]="s <= rating">
+        ★
+      </span>
+    </div>
+
+    <textarea placeholder="Write your feedback" [(ngModel)]="feedback" rows="4">
+      </textarea>
+
+    <button (click)="submitFeedback()">
+      Submit Feedback
+    </button>
+
+  </div>
+
+  <!-- READ ONLY FEEDBACK -->
+  <div class="feedback-read" *ngIf="ticket.feedback">
+    <h3>Your Feedback</h3>
+    <p class="rating">
+      ⭐ {{ ticket.rating }}/5
+    </p>
+    <p class="text">
+      {{ ticket.feedback }}
+    </p>
+  </div>
+</div>
+
+
+
+
+
+<!-- ================= LOADING ================= -->
+<div class="loading" *ngIf="loading">
+  Loading ticket...
+</div>
+
+<!-- ================= CHAT ICON ================= -->
+<div class="chat-float-btn" *ngIf="ticket?.status === 'IN_PROGRESS'" [class.disabled]="ticket?.status === 'CLOSED'"
+  (click)="ticket?.status !== 'CLOSED' && toggleChat()">
+  💬
+  <span class="notify-badge" *ngIf="unreadCount > 0">
+    {{ unreadCount }}
+  </span>
+</div>
+
+
+
+<!-- ================= CHAT MODAL ================= -->
+<div class="chat-modal" *ngIf="isChatOpen">
+
+  <div class="chat-wrapper">
+
+    <!-- HEADER -->
+    <div class="chat-header">
+      <span>Live Support</span>
+      <button class="close-btn" (click)="toggleChat()">✖</button>
+    </div>
+
+    <!-- BODY -->
+    <div class="chat-body" #chatContainer>
+
+      <div *ngFor="let m of messages" class="chat-row" [ngClass]="{
+             'right': m.sender_role === 'USER',
+             'left': m.sender_role === 'DEVELOPER'
+           }">
+
+        <div class="chat-bubble">
+
+          <!-- show sender only if not mine -->
+          <div class="sender" *ngIf="m.sender_role === 'DEVELOPER' ">
+            {{ m.sender_name }}
+            {{ m.senderName }}
+          </div>
+
+          <div class="text">
+
+            <!-- TEXT -->
+            <div *ngIf="m.message">
+              {{ m.message }}
+            </div>
+
+            <!-- IMAGE -->
+            <img *ngIf="m.file_type?.includes('image')" [src]="getSafeUrl(m.attachment_url)" class="chat-media"
+              (click)="openImage(m.attachment_url)" />
+
+            <!-- VIDEO -->
+            <video *ngIf="m.file_type?.includes('video')" class="chat-media" (click)="openVideo(m.attachment_url)"
+              muted>
+              <source [src]="getSafeUrl(m.attachment_url)">
+            </video>
+
+            <!-- STATUS -->
+            <ng-container *ngIf="m.sender_role === 'DEVELOPER'">
+              <span *ngIf="m.status === 'sent'">✔</span>
+              <span *ngIf="m.status === 'delivered'">✔✔</span>
+              <span *ngIf="m.status === 'read'" style="color:#4FB6EC">✔✔</span>
+            </ng-container>
+
+          </div>
+
+          <div class="time">
+            {{ m.created_at | date:'shortTime' }}
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- INPUT -->
+    <div class="chat-input">
+      <div class="file-preview" *ngIf="selectedFile">
+        📎 {{ selectedFile.name }}
+        <button class="remove-file" (click)="removeFile()">✖</button>
+      </div>
+
+      <div class="chat-input-row">
+        <input type="file" #fileInput hidden (change)="onFileSelect($event)" />
+        <button type="button" (click)="fileInput.click()">📎</button>
+        <input [(ngModel)]="message" placeholder="Type message..." (keyup.enter)="send()" />
+        <button (click)="send()">➤</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- !--  IMAGE MODAL -->
+<div class="media-modal" *ngIf="selectedImage" (click)="closeImage()">
+  <button class="media-close-btn" (click)="closeImage(); $event.stopPropagation()">
+    ✖
+  </button>
+  <img [src]="getSafeUrl(selectedImage)" class="full-media" />
+</div>
+
+<!--  VIDEO MODAL -->
+<div class="media-modal" *ngIf="selectedVideo" (click)="closeVideo()">
+  <button class="media-close-btn" (click)="closeVideo(); $event.stopPropagation()">
+    ✖
+  </button>
+  <video controls autoplay class="full-media">
+    <source [src]="getSafeUrl(selectedVideo)">
+  </video>
+</div>
