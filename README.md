@@ -249,27 +249,27 @@ Shows support chat conversations for developers/support team:
 
 ### Support Ticket Form
 
-![Support Ticket Form](./screenshots/support-ticket-form.png)
+![Support Ticket Form](./img/pic1.png)
 
 ### Ticket List View
 
-![Ticket List View](./screenshots/ticket-list-view.png)
+![Ticket List View](./img/pic5.png)
 
 ### Ticket Detail View
 
-![Ticket Detail View](./screenshots/ticket-detail-view.png)
+![Ticket Detail View](./img/pic4.png)
 
 ### Live Chat (User View)
 
-![Live Chat User View](./screenshots/live-chat-user.png)
+![Live Chat User View](./img/pic6.png)
 
 ### Live Chat Conversation
 
-![Live Chat Conversation](./screenshots/live-chat-conversation.png)
+![Live Chat Conversation](./img/pic7.png)
 
 ### Developer Chat Dashboard
 
-![Developer Chat Dashboard](./screenshots/developer-chat-dashboard.png)
+![Developer Chat Dashboard](./img/pic8.png)
 
 > Create a folder named **`screenshots`** in the repo root and add your screenshots using these names:
 
